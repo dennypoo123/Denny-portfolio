@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<style>html{-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}body{overflow-x:clip}</style>
+<style>html{-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}body{overflow-x:clip}#loader{position:fixed;inset:0;z-index:100;background:#F4F1EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .7s ease,visibility .7s ease}#loader img{width:min(190px,46vw);height:auto;animation:ldBreathe 1.8s ease-in-out infinite alternate}#loader .dots{display:flex;gap:9px}#loader .dots i{width:8px;height:8px;border-radius:50%;background:#1B1F1D;opacity:.25;animation:ldDot 1.2s ease-in-out infinite}#loader .dots i:nth-child(2){animation-delay:.18s}#loader .dots i:nth-child(3){animation-delay:.36s}#loader.done{opacity:0;visibility:hidden}body.loading{overflow:hidden}#app{transition:opacity .8s ease .15s,transform .8s cubic-bezier(.2,.7,.2,1) .15s}body.loading #app{opacity:0;transform:translateY(14px)}@keyframes ldBreathe{from{transform:scale(.97) rotate(-1.5deg);opacity:.85}to{transform:scale(1.03) rotate(1.5deg);opacity:1}}@keyframes ldDot{0%,100%{opacity:.2;transform:translateY(0)}40%{opacity:.9;transform:translateY(-6px)}}@media (prefers-reduced-motion:reduce){#loader img,#loader .dots i{animation:none}#app{transition:opacity .3s ease}body.loading #app{transform:none}}</style>
 <style data-from="Main">
 @font-face{font-family:'MTF Messy';src:url('assets/6144a87aa2498f4c6971b9caab0129e2.ttf') format('truetype');font-display:swap}
 html{scroll-behavior:smooth}
@@ -202,7 +202,8 @@ body{margin:0;background:#F4F1EA}
 @media (prefers-reduced-motion:reduce){.fb-book{transition:none}.fb-leaf{animation-duration:.01s}.fb-face::after{animation:none}}
 </style>
 </head>
-<body>
+<body class="loading">
+<div id="loader" aria-hidden="true"><img src="assets/4d18ee22cf298df1669e77ade520e0f7.png" alt=""><div class="dots"><i></i><i></i><i></i></div></div>
 <div id="app"></div>
 <template id="tpl-Main"><div style="background: #F4F1EA; color: #1B1F1D; font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.55; width: 100%; display: flex; flex-wrap: wrap; align-items: flex-start" class="site" id="page-top">
 
@@ -999,6 +1000,18 @@ componentWillUnmount() { clearTimeout(this._t); }
 return Component;
 })(), {"embedded": false}, 'tpl-JourneyFlipbook');
 DC.mount('Main', document.getElementById('app'));
+(function () {
+var t0 = Date.now(), done = false, ld = document.getElementById('loader');
+function finish() {
+if (done) return; done = true;
+setTimeout(function () {
+document.body.classList.remove('loading');
+if (ld) { ld.classList.add('done'); setTimeout(function () { ld.remove(); }, 900); }
+}, Math.max(0, 900 - (Date.now() - t0)));
+}
+if (document.readyState === 'complete') finish(); else window.addEventListener('load', finish);
+setTimeout(finish, 2600);
+})();
 </script>
 <noscript><p style="font-family:sans-serif;padding:24px">This portfolio needs JavaScript turned on. Email: dennyhu8848@gmail.com</p></noscript>
 </body>
