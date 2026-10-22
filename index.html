@@ -648,7 +648,15 @@ Toronto Symphony Orchestra<br>The Globe and Mail<br>Aureole Studios<br>WIA 2025 
           el.__h[EVENTS[lname]] = fx ? resolve(fx, scope) : null;
           continue;
         }
-        if (val.indexOf('{{') >= 0) el.setAttribute(name, interp(val, scope));
+        if (val.indexOf('{{') >= 0) {
+          var sh = single(val);
+          if (sh) {
+            var rv = resolve(sh, scope);
+            if (rv === false || rv == null) { el.removeAttribute(name); continue; }
+            if (rv === true) { el.setAttribute(name, ''); continue; }
+          }
+          el.setAttribute(name, interp(val, scope));
+        }
       }
       bind(el);
       this.build(n.childNodes, el, scope, counter);
