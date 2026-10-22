@@ -37,6 +37,8 @@ button.ph.has-img img,button.ph.has-img video{position:absolute;inset:0;width:10
 .playbadge{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:999px;background:rgba(244,241,234,.92);color:#1B1F1D;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(27,31,29,.2);transition:transform .25s ease}
 button.ph:hover .playbadge,button.ph:focus-visible .playbadge{transform:scale(1.12)}
 .tile{margin:0 0 18px;break-inside:avoid}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:70;background:#1B1F1D;color:#F4F1EA;padding:12px 20px;border-radius:999px;font:600 14px 'DM Sans',sans-serif;box-shadow:0 10px 24px rgba(0,0,0,.25);animation:toastIn .25s ease;white-space:nowrap;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
 .contactline{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:17px}
 .copybtn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border-radius:999px;border:1.5px solid #1B1F1D;background:transparent;color:#1B1F1D;font:600 13px 'DM Sans',sans-serif;cursor:pointer;transition:background .2s ease,color .2s ease}
 .copybtn:hover{background:#1B1F1D;color:#F4F1EA}
@@ -214,7 +216,7 @@ body{margin:0;background:#F4F1EA}
 <button class="menubtn" type="button" aria-controls="sidemenu" aria-expanded="{{menuExpanded}}" onClick="{{toggleMenu}}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{menuIcon}}"></path></svg>{{menuLabel}}</button>
 </div>
 <div class="icons-phone">
-<a class="sicon" href="mailto:dennyhu8848@gmail.com" aria-label="Email" title="Email"><img src="assets/ce1f931dac470e52e6d465cb3ba62871.png" alt=""></a>
+<a class="sicon" href="mailto:dennyhu8848@gmail.com" onClick="{{emailClick}}" aria-label="Copy email address" title="Copy email: dennyhu8848@gmail.com"><img src="assets/ce1f931dac470e52e6d465cb3ba62871.png" alt=""></a>
 <a class="sicon" href="https://www.instagram.com/hu_is_denny/?hl=en" aria-label="Instagram" title="Instagram"><img src="assets/c27bf82393b5a74a93617fb5af57e373.png" alt=""></a>
 <a class="sicon" href="https://www.linkedin.com/in/huisdenny/" aria-label="LinkedIn" title="LinkedIn"><img src="assets/0a69f4859a1d2fa1347a8c1cfb0ebca9.png" alt=""></a>
 </div>
@@ -226,7 +228,7 @@ body{margin:0;background:#F4F1EA}
 <a class="navlink" href="#about" onClick="{{closeMenu}}">About me</a>
 <a class="navlink" href="#" role="button" onClick="{{openShop}}">Shop</a>
 </nav><div class="icons-desk" style="display: flex; gap: 6px; justify-content: center; margin-top: -10px">
-<a class="sicon" href="mailto:dennyhu8848@gmail.com" aria-label="Email" title="Email"><img src="assets/ce1f931dac470e52e6d465cb3ba62871.png" alt=""></a>
+<a class="sicon" href="mailto:dennyhu8848@gmail.com" onClick="{{emailClick}}" aria-label="Copy email address" title="Copy email: dennyhu8848@gmail.com"><img src="assets/ce1f931dac470e52e6d465cb3ba62871.png" alt=""></a>
 <a class="sicon" href="https://www.instagram.com/hu_is_denny/?hl=en" aria-label="Instagram" title="Instagram"><img src="assets/c27bf82393b5a74a93617fb5af57e373.png" alt=""></a>
 <a class="sicon" href="https://www.linkedin.com/in/huisdenny/" aria-label="LinkedIn" title="LinkedIn"><img src="assets/0a69f4859a1d2fa1347a8c1cfb0ebca9.png" alt=""></a>
 </div>
@@ -297,7 +299,7 @@ Toronto Symphony Orchestra<br>The Globe and Mail<br>Aureole Studios<br>WIA 2025 
 <div style="flex: 0 1 520px; min-width: 0">
 <h2 style="margin: 0; font-family: 'MTF Messy', cursive; font-weight: 400; font-size: 62px; letter-spacing: 0">About me</h2>
 <p style="margin: 16px 0 0; font-size: 18px; max-width: 580px">Denny Hu is a Chinese-Canadian illustrator who currently resides in Toronto. He has a special knack for isometric illustrations and aims to tell every interesting little story through his whimsical drawings.</p>
-<div class="contactline">Contact me at: <a href="mailto:dennyhu8848@gmail.com" style="font-weight: 600">dennyhu8848@gmail.com</a><button type="button" class="copybtn {{copiedCls}}" onClick="{{copyEmail}}" aria-label="Copy email address" title="Copy email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{copyIcon}}"></path></svg></button></div>
+<div class="contactline">Contact me at: <a href="mailto:dennyhu8848@gmail.com" onClick="{{emailClick}}" title="Click to copy" style="font-weight: 600">dennyhu8848@gmail.com</a><button type="button" class="copybtn {{copiedCls}}" onClick="{{copyEmail}}" aria-label="Copy email address" title="Copy email"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{copyIcon}}"></path></svg></button></div>
 </div>
 </section>
 
@@ -312,6 +314,7 @@ Toronto Symphony Orchestra<br>The Globe and Mail<br>Aureole Studios<br>WIA 2025 
 </footer>
 
 </main>
+<sc-if value="{{toastOn}}" hint-placeholder-val="{{ false }}"><div class="toast" role="status">Email copied: dennyhu8848@gmail.com</div></sc-if>
 <sc-if value="{{shopMsg}}" hint-placeholder-val="{{ false }}">
 <div class="shop-pop" role="alertdialog" aria-live="assertive" onClick="{{closeShop}}"><div class="shop-card"><div style="font-family: 'MTF Messy', cursive; font-size: 46px; line-height: 1.15">there's nothing here dawg</div><div style="margin-top: 10px; font-size: 13px; color: #4D5B4B">(click anywhere to close)</div></div></div>
 </sc-if>
@@ -771,9 +774,11 @@ closeShop: () => { clearTimeout(this._shopT); this.setState({ shopMsg: false });
 copiedCls: (this.state && this.state.copied) ? 'copied' : '',
 copyLabel: (this.state && this.state.copied) ? 'Copied!' : 'Copy',
 copyIcon: (this.state && this.state.copied) ? 'M5 12.5l4.5 4.5L19 7' : 'M9 9h10v10H9zM5 15V5h10',
+emailClick: (e) => { try { e && e.preventDefault && e.preventDefault(); } catch (err) {} const b = document.querySelector('.copybtn'); if (b) b.click(); },
+toastOn: !!(this.state && this.state.toast),
 copyEmail: () => {
 const em = 'dennyhu8848@gmail.com';
-const done = () => { this.setState({ copied: true }); clearTimeout(this._cpT); this._cpT = setTimeout(() => this.setState({ copied: false }), 1800); };
+const done = () => { this.setState({ copied: true, toast: true }); clearTimeout(this._cpT); this._cpT = setTimeout(() => this.setState({ copied: false, toast: false }), 2200); };
 try {
 if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(em).then(done, () => { fallback(); }); return; }
 } catch (e) {}
